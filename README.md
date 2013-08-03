@@ -3,6 +3,8 @@ photos.js
 
 A node.js powered Photo Gallery
 
+![photos-js-screenshot](http://taeram.github.io/media/photos-js-screenshot.png)
+
 Requirements
 ============
 

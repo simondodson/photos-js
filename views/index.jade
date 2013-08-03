@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    for album in albums
+        h2 #{album.name}
+            small.muted(style="padding-left: 10px") #{album.date}
+        div
+            if album.photos
+                for photo in album.photos
+                    img(
+                        src="#{placeholderImg}",
+                        data-src="#{s3Url}/#{album._id}/#{photo.name}_thumb.jpg",
+                        data-img="#{s3Url}/#{album._id}/#{photo.name}_display.jpg",
+                        data-img-original="#{s3Url}/#{album._id}/#{photo.name}#{photo.ext}",
+                        class="img-thumbnail"
+                    )
+
+

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    form(method="post",class="form-small")
+        h2 Please sign in
+        div(class="form-group")
+            label(for="username")
+            input(type="text", name="username", id="username", placeholder="Username", class="form-control", autofocus)
+        div(class="form-group")
+            label(for="password")
+            input(type="password", name="password", id="password", placeholder="Password", class="form-control")
+        button(type="submit", class="btn btn-large btn-primary btn-block") Sign in
+

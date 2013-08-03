@@ -1,0 +1,8 @@
+{
+  "name": "photos-js",
+  "dependencies": {
+    "amazon-s3-multi-uploader": "https://github.com/taeram/amazon-s3-multi-uploader.git#1.*",
+    "unveil": "https://github.com/taeram/unveil.git#1.1.1",
+    "zerobox": "https://github.com/taeram/zerobox.git#0.0.2"
+  }
+}

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    form(method="post", action="/create", class="form-small")
+        h2 Create an Album
+        div(class="form-group")
+            label(for="name")
+            input(type="text", id="name", name="name", class="form-control", placeholder="Album Name", autofocus)
+        div(class="form-group")
+            label(for="date")
+            input(type="date", id="date", name="date", class="form-control")
+        button(type="submit", class="btn btn-large btn-primary btn-block") Add Photos

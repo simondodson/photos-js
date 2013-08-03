@@ -1,0 +1,27 @@
+{
+  "name": "photos-js",
+  "description": "A Node.js powered Photo Gallery",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.10.x",
+    "npm":  "1.2.x"
+  },
+  "dependencies": {
+    "aws-sdk": "*",
+    "bower": "*",
+    "express": "3.2.5",
+    "jade": "*",
+    "mime-magic": "*",
+    "mongodb": "*",
+    "node-uuid": "*",
+    "path": "*",
+    "underscore": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/taeram/photos-js"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/.bin/bower install"
+  }
+}

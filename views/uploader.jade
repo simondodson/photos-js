@@ -1,0 +1,29 @@
+extends layout
+
+include ../public/components/amazon-s3-multi-uploader/uploader-mixins
+
+block head
+    +uploader-block-head()
+
+block content
+    h1= title
+    +uploader-block-content()
+
+block script
+    +uploader-block-script()
+
+    script.
+        /* Services */
+        angular.module('uploaderApp.services', []).
+            factory('notify', ['$window', function($window) {
+                return function($scope, file) {
+                    $.getJSON('/upload/callback/?gallery=' + file.folder + '&file=' + file.name, function (result) {
+                        // Thumbnail request successful!
+                        $scope.$apply(function() {
+                            file.url = result.url;
+                        });
+                    });
+                }
+            }
+        ]);
+

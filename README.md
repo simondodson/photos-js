@@ -33,10 +33,11 @@ heroku config:set AWS_ACCESS_KEY_ID=secret \
                   AWS_SQS_QUEUE=https://sqs.us-east-1.amazonaws.com/12345/abcdef
                   PLACEHOLDER_IMAGE_URL=https://example.com/placeholder.png \
                   S3_BUCKET_NAME=my-gif-bucket \
-                  THUMBNAIL_SUFFIX="thumb" \
                   ADMIN_USERNAME="foo" \
                   ADMIN_PASSWORD="bar" \
                   MAX_UPLOAD_SIZE=10485760 \
                   MONGO_DB_NAME=photos \
-                  SESSION_SECRET="super-random-secret"
+                  SESSION_SECRET="super-random-secret" \
+                  NODE_ENV="production"
 ```
+

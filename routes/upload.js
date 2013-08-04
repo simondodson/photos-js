@@ -26,7 +26,8 @@ exports.index = function(req, res, next) {
 exports.callback = function(req, res){
     var path = require("path"),
         Gallery = require('../models/gallery'),
-        _ = require('underscore');
+        _ = require('underscore'),
+        photoHelper = require('../helpers/photo');
 
     if (typeof(req.query.file) == "undefined") {
         throw "Cannot find query parameter: file";
@@ -35,25 +36,6 @@ exports.callback = function(req, res){
     if (typeof(req.query.gallery) == "undefined") {
         throw "Cannot find query parameter: gallery";
     }
-
-    // Construct the SQS message
-    var filePath = path.normalize(req.query.gallery + '/' + req.query.file).replace(/^\//, '');
-    var sqsMessageBody = JSON.stringify({
-        // Strip leading slashes from path
-        original: filePath,
-        descriptions: [
-            {
-                height: 200,
-                width: 200,
-                suffix: "thumb"
-            },
-            {
-                height: 1200,
-                width: 1200,
-                suffix: "display"
-            }
-        ]
-    });
 
     // Add the photo to the gallery
     Gallery.findById(req.query.gallery, function (err, gallery) {
@@ -77,16 +59,13 @@ exports.callback = function(req, res){
         });
 
         gallery.save(function (err, gallery) {
-            var sqs = require("../libs/sqs");
-
-            // Tell the queue to start resizing the thumbnail
-            sqs.sendMessage({QueueUrl: process.env.AWS_SQS_QUEUE, MessageBody: sqsMessageBody}, function(err, data) {
+            // Generate the thumbnail
+            photoHelper.generateThumbnail(req.query.gallery, req.query.file, function (err) {
                 if (err) {
                     return res.send(error, 500);
                 }
 
                 // Send back the image url and thumbnail url to the uploader page
-                var photoHelper = require('../helpers/photo');
                 return res.send({
                     url: photoHelper.getOriginalUrl(gallery.id, photo.name, photo.ext),
                     thumbUrl: photoHelper.getThumbnailUrl(gallery.id, photo.name)

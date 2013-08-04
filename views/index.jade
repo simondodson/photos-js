@@ -9,6 +9,8 @@ block content
                   ul(class="dropdown-menu")
                     li
                         a(href="/upload/#{album.id}") Add to this Album
+                    li
+                        a(href="/delete/#{album.id}") Delete this Album
             | #{album.name}
             small.muted(style="padding-left: 10px") #{album.date}
         div

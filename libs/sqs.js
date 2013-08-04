@@ -7,7 +7,4 @@ aws.config.update({
 });
 
 // Export the init function
-module.exports = {
-    s3: new aws.S3(),
-    sqs: new aws.SQS({region: process.env.AWS_REGION})
-};
+module.exports = new aws.SQS({region: process.env.AWS_REGION});

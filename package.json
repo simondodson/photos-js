@@ -18,6 +18,7 @@
     "passport": "*",
     "passport-local": "*",
     "path": "*",
+    "s3-lister": "*",
     "underscore": "*"
   },
   "repository": {

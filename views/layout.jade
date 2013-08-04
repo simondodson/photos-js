@@ -9,6 +9,10 @@ html
     link(href="/css/style.css", rel="stylesheet")
   body
     div(class="container")
+        if (flash.length > 0)
+            for alert in flash
+                div(class="alert alert-#{alert.type} unstyled", style="text-align: center; margin-top: 10px")= alert.message
+
         div(class="header")
             ul(class="nav nav-pills pull-right")
                 li

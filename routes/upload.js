@@ -77,7 +77,7 @@ exports.callback = function(req, res){
         });
 
         gallery.save(function (err, gallery) {
-            var sqs = require("../libs/aws").sqs;
+            var sqs = require("../libs/sqs");
 
             // Tell the queue to start resizing the thumbnail
             sqs.sendMessage({QueueUrl: process.env.AWS_SQS_QUEUE, MessageBody: sqsMessageBody}, function(err, data) {

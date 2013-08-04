@@ -34,9 +34,37 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function (req, res, next) {
+
+    // Don't cache pages if logged in
+    if (req.isAuthenticated()) {
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    }
+
     // Add global variables
     app.locals.isAuthenticated = req.isAuthenticated();
     app.locals.user = req.user;
+
+    // Add the flash messages to the global variables
+    app.locals.flash = [];
+    var flashTypes = [ 'info', 'success', 'error' ];
+    for (var i in flashTypes) {
+        var type = flashTypes[i];
+        var message = req.flash(type);
+        if (message.length > 0) {
+            // Convert the flash type into a bootstrap alert type
+            var alertClass;
+            if (type == 'error') {
+                alertClass = 'danger';
+            } else {
+                alertClass = type;
+            }
+
+            app.locals.flash.push({
+                type: alertClass,
+                message: message
+            });
+        }
+    }
 
     next();
 });
@@ -62,9 +90,6 @@ app.locals = {
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        // Prevent protected pages from being cached
-        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-
         return next();
     }
 
@@ -81,6 +106,7 @@ app.get('/logout', logout.index);
 
 app.get('/create', ensureAuthenticated, gallery.index);
 app.post('/create', ensureAuthenticated, gallery.post);
+app.get('/delete/:gallery', ensureAuthenticated, gallery.delete);
 
 app.get('/upload/callback/', ensureAuthenticated, upload.callback);
 app.get('/upload/:folder', ensureAuthenticated, upload.index);

@@ -13,7 +13,7 @@ html
             ul(class="nav nav-pills pull-right")
                 li
                     a(href="/") Home
-                if isAuthenticated
+                if everyauth.loggedIn
                     li
                         a(href="/create") Create an Album
                     li

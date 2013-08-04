@@ -2,10 +2,9 @@
  * Module dependencies.
  */
 var express = require('express'),
+    auth = require('./libs/auth'),
     index = require('./routes'),
     gallery = require('./routes/gallery'),
-    login = require('./routes/login'),
-    logout = require('./routes/logout'),
     upload = require('./routes/upload'),
     http = require('http'),
     path = require('path');
@@ -22,12 +21,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({secret: process.env.SESSION_SECRET}));
-app.use(function(req, res, next){
-    if (req.session.user && req.session.user.isAuthenticated === true) {
-        app.locals.isAuthenticated = true;
-    }
-    next();
-});
+app.use(auth.middleware());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,36 +33,30 @@ if ('development' == app.get('env')) {
     }));
 }
 
+// Set the global variables
 app.locals = {
     siteTitle: 'Photos.js',
     company: 'Photos.js'
 };
 
-// Super crude auth
-function isAuthenticated (req, res, next) {
-    if (req.session.user && req.session.user.isAuthenticated === true) {
+function protectedRoute(req, res, next) {
+    if (req.loggedIn) {
         next();
     } else {
-        res.send('<h1>403 Forbidden</h1>', 403);
+        res.status(403);
+        res.render('error', {
+            title: "Forbidden",
+            message: "You do not have proper privileges to access this page."
+        });
     }
 }
 
-if ('development' == app.get('env')) {
-    app.locals.isAuthenticated = true;
-    function isAuthenticated(req, res, next) {
-        next();
-    }
-}
-app.get('/login', login.index);
-app.post('/login', login.post);
-app.get('/logout', logout.index);
+app.get('/create', protectedRoute, gallery.index);
+app.post('/create', protectedRoute, gallery.post);
 
-app.get('/create', isAuthenticated, gallery.index);
-app.post('/create', isAuthenticated, gallery.post);
-
-app.get('/upload/', isAuthenticated, upload.index);
-app.get('/upload/callback/', isAuthenticated, upload.callback);
-app.get('/upload/:folder', isAuthenticated, upload.index);
+app.get('/upload/', protectedRoute, upload.index);
+app.get('/upload/callback/', protectedRoute, upload.callback);
+app.get('/upload/:folder', protectedRoute, upload.index);
 
 app.get('/', index.index);
 

@@ -9,6 +9,7 @@
   "dependencies": {
     "aws-sdk": "*",
     "bower": "*",
+    "everyauth": "*",
     "express": "3.2.5",
     "jade": "*",
     "mime-magic": "*",

@@ -18,7 +18,6 @@ function deleteFolder(folder, callback) {
     });
 
     lister.on('data', function (data) {
-        console.log("Deleting " + data.Key);
         client.del(data.Key).on('response', function(res) {
             // File successfully deleted
         }).end();

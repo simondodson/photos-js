@@ -22,8 +22,6 @@ Add the MongoDB addon:
 heroku addons:add mongohq:sandbox
 ```
 
-Login to MongoHQ, and create a collection called "photos".
-
 Configure Heroku:
 
 ```bash
@@ -31,13 +29,10 @@ heroku config:set AWS_ACCESS_KEY_ID=secret \
                   AWS_SECRET_ACCESS_KEY=secret \
                   AWS_REGION=us-east-1 \
                   AWS_SQS_QUEUE=https://sqs.us-east-1.amazonaws.com/12345/abcdef
+                  MAX_UPLOAD_SIZE=10485760 \
+                  NODE_ENV="production" \
                   PLACEHOLDER_IMAGE_URL=https://example.com/placeholder.png \
                   S3_BUCKET_NAME=my-gif-bucket \
-                  ADMIN_USERNAME="foo" \
-                  ADMIN_PASSWORD="bar" \
-                  MAX_UPLOAD_SIZE=10485760 \
-                  MONGO_DB_NAME=photos \
-                  SESSION_SECRET="super-random-secret" \
-                  NODE_ENV="production"
+                  SESSION_SECRET="super-random-secret"
 ```
 

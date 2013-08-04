@@ -1,17 +1,13 @@
-// Global includes
-var _ = require('underscore');
-
-// Global variables
-exports.locals = {};
-
 exports.index = function(req, res){
-    var mongo = require("../libs/mongo");
+    var Gallery = require("../models/gallery");
 
-    mongo.gallery.findAll(function (err, albums) {
-        res.render('index', _.extend({
+    Gallery.find().exec(function (err, albums) {
+        console.log(albums);
+        res.render('index', {
             albums: albums,
             placeholderImg: process.env.PLACEHOLDER_IMAGE_URL,
-            s3Url: 'https://' + process.env.S3_BUCKET_NAME + '.s3.amazonaws.com'
-        }, exports.locals));
+            s3Url: 'https://' + process.env.S3_BUCKET_NAME + '.s3.amazonaws.com',
+            photoHelper: require('../helpers/photo')
+        });
     });
 };

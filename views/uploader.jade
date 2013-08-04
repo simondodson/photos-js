@@ -22,8 +22,27 @@ block script
                         $scope.$apply(function() {
                             file.url = result.url;
                         });
+                        waitForThumbnail($scope, file, result.thumbUrl);
                     });
                 }
             }
         ]);
+
+        // Wait until the thumbnail is available before adding the image to the page
+        function waitForThumbnail ($scope, file, thumbUrl) {
+            $.ajax({
+                url: thumbUrl,
+                type: 'HEAD',
+                error: function() {
+                    // 403/404'd, so we haven't found the thumbnail yet, keep waiting
+                    setTimeout(waitForThumbnail, 1000, $scope, file, thumbUrl);
+                },
+                success: function() {
+                    // Found the thumbnail, update the page!
+                    $scope.$apply(function() {
+                        file.imgUrl = thumbUrl;
+                    });
+                }
+            });
+        };
 

@@ -9,6 +9,5 @@ aws.config.update({
 // Export the init function
 module.exports = {
     s3: new aws.S3(),
-    sqs: new aws.SQS({region: process.env.AWS_REGION}),
-    sqsQueueUrl: process.env.AWS_SQS_QUEUE
+    sqs: new aws.SQS({region: process.env.AWS_REGION})
 };

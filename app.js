@@ -2,12 +2,20 @@
  * Module dependencies.
  */
 var express = require('express'),
-    auth = require('./libs/auth'),
-    index = require('./routes'),
-    gallery = require('./routes/gallery'),
-    upload = require('./routes/upload'),
+    flash = require('connect-flash'),
     http = require('http'),
+    mongoose = require('mongoose'),
+    passport = require('./libs/passport'),
     path = require('path');
+
+var index = require('./routes'),
+    login = require('./routes/login'),
+    logout = require('./routes/logout'),
+    gallery = require('./routes/gallery'),
+    upload = require('./routes/upload');
+
+// Connect to the database
+mongoose.connect(process.env.MONGOHQ_URL);
 
 var app = express();
 
@@ -15,15 +23,28 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.favicon());
 app.use(express.logger('dev'));
+app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
 app.use(express.session({secret: process.env.SESSION_SECRET}));
-app.use(auth.middleware());
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function (req, res, next) {
+    // Add global variables
+    app.locals.isAuthenticated = req.isAuthenticated();
+    app.locals.user = req.user;
+
+    next();
+});
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+
+process.on('uncaughtException', function(err) {
+    console.log(err.stack);
+});
 
 // development only
 if ('development' == app.get('env')) {
@@ -39,30 +60,30 @@ app.locals = {
     company: 'Photos.js'
 };
 
-function protectedRoute(req, res, next) {
-    if (req.loggedIn) {
-        next();
-    } else {
-        res.status(403);
-        res.render('error', {
-            title: "Forbidden",
-            message: "You do not have proper privileges to access this page."
-        });
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
     }
+
+    res.status(403);
+    res.render('error', {
+        title: "Forbidden",
+        message: "You do not have proper privileges to access this page."
+    });
 }
 
-app.get('/create', protectedRoute, gallery.index);
-app.post('/create', protectedRoute, gallery.post);
+app.get('/login', login.index);
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), login.post);
+app.get('/logout', logout.index);
 
-app.get('/upload/', protectedRoute, upload.index);
-app.get('/upload/callback/', protectedRoute, upload.callback);
-app.get('/upload/:folder', protectedRoute, upload.index);
+app.get('/create', ensureAuthenticated, gallery.index);
+app.post('/create', ensureAuthenticated, gallery.post);
+
+app.get('/upload/', ensureAuthenticated, upload.index);
+app.get('/upload/callback/', ensureAuthenticated, upload.callback);
+app.get('/upload/:folder', ensureAuthenticated, upload.index);
 
 app.get('/', index.index);
-
-process.on('uncaughtException', function(err) {
-    console.error(err.stack);
-});
 
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));

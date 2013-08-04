@@ -1,16 +1,14 @@
 extends layout
 
 block content
-    if (errors !== undefined && errors.length > 0)
-      ul(class="alert alert-danger unstyled", style="text-align: center; margin-top: 10px")
-        for error in errors
-            div=error
+    if (message.length > 0)
+      div(class="alert alert-danger unstyled", style="text-align: center; margin-top: 10px")= message
 
     form(method="post",class="form-small")
         h2 Please sign in
         div(class="form-group")
-            input(type="text", name=everyauth.password.loginFormFieldName, placeholder="Username", class="form-control", autofocus)
+            input(type="text", name="username", placeholder="Username", class="form-control", autofocus)
         div(class="form-group")
-            input(type="password", name=everyauth.password.passwordFormFieldName, placeholder="Password", class="form-control")
+            input(type="password", name="password", placeholder="Password", class="form-control")
         button(type="submit", class="btn btn-large btn-primary btn-block") Sign in
 

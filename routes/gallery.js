@@ -1,18 +1,13 @@
-// Global includes
-var _ = require('underscore');
-
-// Global variables
-exports.locals = {};
-
 exports.index = function(req, res){
-    res.render('create', _.extend({}, exports.locals));
+    res.render('create');
 };
 
 exports.post = function(req, res){
-    var mongo = require('../libs/mongo');
-    var gallery = (req.body);
+    var Gallery = require('../models/gallery');
 
-    mongo.gallery.add(gallery, function () {
-        res.redirect('/upload/' + gallery._id);
+    var gallery = new Gallery(req.body);
+    gallery.save(function (err, gallery) {
+        if (err) throw err;
+        res.redirect('/upload/' + gallery.id);
     });
 };

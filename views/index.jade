@@ -9,9 +9,9 @@ block content
                 for photo in album.photos
                     img(
                         src="#{placeholderImg}",
-                        data-src="#{s3Url}/#{album._id}/#{photo.name}_thumb.jpg",
-                        data-img="#{s3Url}/#{album._id}/#{photo.name}_display.jpg",
-                        data-img-original="#{s3Url}/#{album._id}/#{photo.name}#{photo.ext}",
+                        data-src="#{photoHelper.getThumbnailUrl(album.id, photo.name)}",
+                        data-img="#{photoHelper.getDisplayUrl(album.id, photo.name)}",
+                        data-img-original="#{photoHelper.getOriginalUrl(album.id, photo.name, photo.ext)}",
                         class="img-thumbnail"
                     )
 

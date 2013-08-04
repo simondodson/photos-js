@@ -1,10 +1,23 @@
 exports.index = function(req, res, next) {
-    var uploader = require('../public/components/amazon-s3-multi-uploader/uploader-routes');
+    var uploader = require('../public/components/amazon-s3-multi-uploader/uploader-routes'),
+        Gallery = require('../models/gallery');
 
-    // Set the title for the upload page
-    uploader.locals.title = "Upload Photos";
+    Gallery.findOne({_id: req.params.folder}, function (err, gallery) {
+        if (err) throw err;
 
-    uploader.index(req, res, next);
+        if (!gallery) {
+            res.status(404);
+            res.render('error', {
+                title: "Not Found",
+                message: "Could not find gallery " + req.params.folder
+            });
+        }
+
+        // Set the title for the upload page
+        uploader.locals.title = "Upload Photos to " + gallery.name;
+
+        uploader.index(req, res, next);
+    });
 };
 
 /**

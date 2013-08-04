@@ -82,7 +82,6 @@ app.get('/logout', logout.index);
 app.get('/create', ensureAuthenticated, gallery.index);
 app.post('/create', ensureAuthenticated, gallery.post);
 
-app.get('/upload/', ensureAuthenticated, upload.index);
 app.get('/upload/callback/', ensureAuthenticated, upload.callback);
 app.get('/upload/:folder', ensureAuthenticated, upload.index);
 

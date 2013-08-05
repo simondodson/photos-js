@@ -5,19 +5,19 @@ block content
         h2
             if isAuthenticated
                 div(class="btn-group pull-right btn-group-album-options")
-                  i(class="icon-gear dropdown-toggle", data-toggle="dropdown")
-                  ul(class="dropdown-menu")
-                    li
-                        a(href="/upload/#{album.id}") Add to this Album
-                    li
-                        a(href="/delete/#{album.id}") Delete this Album
+                    i(class="icon-gear dropdown-toggle", data-toggle="dropdown")
+                    ul(class="dropdown-menu")
+                        li
+                            a(href="/upload/#{album.id}") Add to this Album
+                        li
+                            a(href="/delete/#{album.id}") Delete this Album
             | #{album.name}
             small.muted(style="padding-left: 10px") #{album.date}
         div
             if album.photos
                 for photo in album.photos
                     img(
-                        src="#{placeholderImg}",
+                        src="#{photoHelper.getPlaceholderUrl()}",
                         data-src="#{photoHelper.getThumbnailUrl(album.id, photo.name)}",
                         data-img="#{photoHelper.getDisplayUrl(album.id, photo.name)}",
                         data-img-original="#{photoHelper.getOriginalUrl(album.id, photo.name, photo.ext)}",

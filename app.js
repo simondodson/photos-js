@@ -14,9 +14,6 @@ var index = require('./routes'),
     gallery = require('./routes/gallery'),
     upload = require('./routes/upload');
 
-// Connect to the database
-mongoose.connect(process.env.MONGOHQ_URL);
-
 var app = express();
 
 // all environments
@@ -88,6 +85,15 @@ app.locals = {
     company: 'Photos.js'
 };
 
+/**
+ * Return a 403 Forbidden if the user isn't logged in.
+ *
+ * This function is used to protect specific endpoints.
+ *
+ * @param Request req The reqeust object
+ * @param Response res The response object
+ * @param function next The next function
+ */
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -116,3 +122,6 @@ app.get('/', index.index);
 http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
+
+// Connect to the database
+mongoose.connect(process.env.MONGOHQ_URL);

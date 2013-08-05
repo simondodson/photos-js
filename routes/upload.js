@@ -14,7 +14,7 @@ exports.index = function(req, res, next) {
         }
 
         // Set the title for the upload page
-        uploader.locals.title = "Upload Photos to " + gallery.name;
+        uploader.locals.title = "Add Photos to " + gallery.name;
 
         uploader.index(req, res, next);
     });
@@ -24,22 +24,21 @@ exports.index = function(req, res, next) {
  * GET callback page after a successful upload
  */
 exports.callback = function(req, res){
-    var path = require("path"),
-        Gallery = require('../models/gallery'),
-        _ = require('underscore'),
-        photoHelper = require('../helpers/photo');
-
-    if (typeof(req.query.file) == "undefined") {
+    if (req.query.file === undefined) {
         throw "Cannot find query parameter: file";
     }
 
-    if (typeof(req.query.gallery) == "undefined") {
+    if (req.query.gallery === undefined) {
         throw "Cannot find query parameter: gallery";
     }
 
     // Add the photo to the gallery
+    var Gallery = require('../models/gallery');
     Gallery.findById(req.query.gallery, function (err, gallery) {
         if (err) throw err;
+
+        var path = require("path"),
+            _ = require('underscore');
 
         // Add the photo to the gallery
         var photo = {
@@ -60,6 +59,7 @@ exports.callback = function(req, res){
 
         gallery.save(function (err, gallery) {
             // Generate the thumbnail
+            var photoHelper = require('../helpers/photo');
             photoHelper.generateThumbnail(req.query.gallery, req.query.file, function (err) {
                 if (err) {
                     return res.send(error, 500);

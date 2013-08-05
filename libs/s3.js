@@ -13,6 +13,8 @@ var client = knox.createClient({
  * @param string folder The folder
  */
 function deleteFolder(folder, callback) {
+    // S3 Lister will return *all* items in a folder,
+    // instead of just returning the first 1,000 like the AWS SDK does.
     var lister = new s3Lister(client, {
         prefix : folder
     });
@@ -27,7 +29,7 @@ function deleteFolder(folder, callback) {
         callback(err);
     })
     .on('end', function () {
-        // Success
+        // Success, trigger the callback
         callback(null);
     });
 }

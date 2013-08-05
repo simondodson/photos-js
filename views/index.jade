@@ -10,7 +10,7 @@ block content
                         li
                             a(href="/upload/#{album.id}") Add to this Album
                         li
-                            a(href="/delete/#{album.id}") Delete this Album
+                            a(href="/delete/#{album.id}", data-album-name="#{album.name}", class="button-delete-album") Delete this Album
             | #{album.name}
             small.muted(style="padding-left: 10px") #{album.date}
         div

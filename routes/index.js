@@ -6,7 +6,8 @@ exports.index = function(req, res){
         // Sort the albums by date
         var _ = require('underscore');
         albums = _.sortBy(albums, function (album) {
-            return -1 * album.date;
+            var date = new Date(album.date);
+            return -1 * date.getTime();
         });
 
         res.render('index', {

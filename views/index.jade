@@ -13,10 +13,14 @@ block content
                             a(href="/delete/#{album.id}", data-album-name="#{album.name}", class="button-delete-album") Delete this Album
             | #{album.name}
             small.muted(style="padding-left: 10px") #{album.date}
-        div
+        div.row
             if album.photos
-                for photo in album.photos
-                    div.img-thumbnail-container
+                - var thumbnailContainerClass = ''
+                each photo, index in album.photos
+                    if index == 5
+                        - thumbnailContainerClass = 'hide hide-toggle'
+
+                    div(class="img-thumbnail-container #{thumbnailContainerClass}")
                         span.img-thumbnail
                             if isAuthenticated
                                 a(class="btn btn-danger btn-delete btn-small btn-top-left", href="/delete/#{album.id}/#{photo.id}")
@@ -28,5 +32,9 @@ block content
                                 data-img-original="#{photoHelper.getOriginalUrl(album, photo)}",
                                 data-attribution="Photo by #{photo.owner.username}"
                             )
+
+                if album.photos.length > 5
+                    div(class="btn btn-primary btn-more pull-right") More &nbsp;
+                        i.icon-chevron-down
 
 

@@ -43,7 +43,8 @@ exports.callback = function(req, res){
         // Add the photo to the gallery
         var photo = {
             name: path.basename(req.query.file, path.extname(req.query.file)),
-            ext: path.extname(req.query.file)
+            ext: path.extname(req.query.file),
+            owner: req.user._id
         };
         gallery.photos.push(photo);
 

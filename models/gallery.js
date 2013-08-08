@@ -1,9 +1,11 @@
  var mongoose = require('mongoose'),
-     Schema = mongoose.Schema;
+     Schema = mongoose.Schema,
+     User = require('./user');
 
 var PhotoSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    ext: { type: String, required: true }
+    ext: { type: String, required: true },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 /**
@@ -36,7 +38,7 @@ PhotoSchema.method('getOriginalPath', function() {
 var GallerySchema = new mongoose.Schema({
     name: { type: String, required: true },
     date: { type: String, required: true },
-    photos: [PhotoSchema]
+    photos: [ PhotoSchema ]
 });
 
 /**

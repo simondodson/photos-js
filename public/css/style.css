@@ -43,6 +43,13 @@ body {
         cursor: pointer;
     }
 
+.img-attribution {
+    bottom: 5px;
+    color: #ddd;
+    left: 5px;
+    position: absolute;
+}
+
 .btn-download {
     margin: 2px;
     position: absolute;

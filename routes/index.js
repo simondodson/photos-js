@@ -2,7 +2,7 @@ exports.index = function(req, res){
     var Gallery = require("../models/gallery");
 
     // Get a list of all albums
-    Gallery.find().exec(function (err, albums) {
+    Gallery.find().populate('photos.owner', 'username').exec(function (err, albums) {
         // Sort the albums by date
         var _ = require('underscore');
         albums = _.sortBy(albums, function (album) {

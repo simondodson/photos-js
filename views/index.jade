@@ -25,7 +25,8 @@ block content
                                 src="#{photoHelper.getPlaceholderUrl()}",
                                 data-src="#{photoHelper.getThumbnailUrl(album, photo)}",
                                 data-img="#{photoHelper.getDisplayUrl(album, photo)}",
-                                data-img-original="#{photoHelper.getOriginalUrl(album, photo)}"
+                                data-img-original="#{photoHelper.getOriginalUrl(album, photo)}",
+                                data-attribution="Photo by #{photo.owner.username}"
                             )
 
 

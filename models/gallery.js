@@ -1,6 +1,5 @@
  var mongoose = require('mongoose'),
-     Schema = mongoose.Schema,
-     PhotoSchema = require('./photo');
+     Schema = mongoose.Schema;
 
 var PhotoSchema = new mongoose.Schema({
     name: { type: String, required: true },

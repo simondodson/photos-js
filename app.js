@@ -113,6 +113,7 @@ app.get('/logout', logout.index);
 app.get('/create', ensureAuthenticated, gallery.index);
 app.post('/create', ensureAuthenticated, gallery.post);
 app.get('/delete/:gallery', ensureAuthenticated, gallery.delete);
+app.get('/delete/:gallery/:photo', ensureAuthenticated, gallery.delete_photo);
 
 app.get('/upload/callback/', ensureAuthenticated, upload.callback);
 app.get('/upload/:folder', ensureAuthenticated, upload.index);

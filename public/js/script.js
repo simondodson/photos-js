@@ -1,12 +1,12 @@
 $(document).ready(function () {
-    if ($('.img-thumbnail').length > 0) {
+    if ($('.img-thumbnail img').length > 0) {
         // Create the lightbox
-        $('.img-thumbnail').zerobox({
+        $('.img-thumbnail img').zerobox({
             preLoad: false
         });
 
         // Start that lazy loadin'
-        $('.img-thumbnail:visible').unveil(200);
+        $('.img-thumbnail img').unveil(200);
     }
 
     $('.button-delete-album').click(function (e) {
@@ -16,6 +16,6 @@ $(document).ready(function () {
             return true;
         } else {
             e.preventDefault();
-        };
-    })
+        }
+    });
 });

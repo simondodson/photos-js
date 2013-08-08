@@ -36,6 +36,22 @@ module.exports = {
         return bucketUrl + '/' + albumId + '/' + photoName + photoExt;
     },
     /**
+     * Get an array of the relative paths to the original image and all thumbnails
+     *
+     * @param string albumId The album id
+     * @param string photoName The photo name, without the extension. Eg. IMG_2534
+     * @param string photoExt The photo extension, with the period. Eg. .JPG
+     *
+     * @return array
+     */
+    getPhotoPaths: function (albumId, photoName, photoExt) {
+        return [
+            '/' + albumId + '/' + photoName + '_thumb.jpg',
+            '/' + albumId + '/' + photoName + '_display.jpg',
+            '/' + albumId + '/' + photoName + photoExt
+        ];
+    },
+    /**
      * Get the placeholder image url
      *
      * @return string

@@ -16,12 +16,15 @@ block content
         div
             if album.photos
                 for photo in album.photos
-                    img(
-                        src="#{photoHelper.getPlaceholderUrl()}",
-                        data-src="#{photoHelper.getThumbnailUrl(album.id, photo.name)}",
-                        data-img="#{photoHelper.getDisplayUrl(album.id, photo.name)}",
-                        data-img-original="#{photoHelper.getOriginalUrl(album.id, photo.name, photo.ext)}",
-                        class="img-thumbnail"
-                    )
+                    div.img-thumbnail
+                        if isAuthenticated
+                            a(class="btn btn-danger btn-delete btn-small btn-top-left", href="/delete/#{album.id}/#{photo.id}")
+                                i(class="icon-trash")
+                        img(
+                            src="#{photoHelper.getPlaceholderUrl()}",
+                            data-src="#{photoHelper.getThumbnailUrl(album.id, photo.name)}",
+                            data-img="#{photoHelper.getDisplayUrl(album.id, photo.name)}",
+                            data-img-original="#{photoHelper.getOriginalUrl(album.id, photo.name, photo.ext)}"
+                        )
 
 

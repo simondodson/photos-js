@@ -24,6 +24,14 @@ body {
         font-size: 14px;
     }
 
+.btn-small {
+    padding: 0 4px;
+}
+
+.btn-top-left {
+    position: absolute;
+}
+
 .img-thumbnail {
     cursor: pointer;
 }

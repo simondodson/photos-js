@@ -18,4 +18,16 @@ $(document).ready(function () {
             e.preventDefault();
         }
     });
+
+    // The "More" button
+    $('.btn-more').click(function (e) {
+        // Hide the button
+        $(this).hide();
+
+        // Show all the hidden thumbnails
+        $(this).parent().find('.hide-toggle').toggleClass('hide');
+
+        // Start that lazy loadin'
+        $(this).parent().find('.img-thumbnail img').unveil(200);
+    });
 });

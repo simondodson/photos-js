@@ -32,9 +32,16 @@ body {
     position: absolute;
 }
 
-.img-thumbnail {
-    cursor: pointer;
+.img-thumbnail-container {
+    display: inline-block;
+    margin: 2px;
+    min-width: 210px;
+    text-align: center;
 }
+
+    .img-thumbnail {
+        cursor: pointer;
+    }
 
 .btn-download {
     margin: 2px;

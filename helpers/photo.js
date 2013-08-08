@@ -1,54 +1,52 @@
-var bucketUrl = 'http://' + process.env.S3_BUCKET_NAME + '.s3.amazonaws.com';
+var bucketUrl = 'https://' + process.env.S3_BUCKET_NAME + '.s3.amazonaws.com';
 
 module.exports = {
     /**
      * Get the thumbnail image url
      *
-     * @param string albumId The album id
-     * @param string photoName The photo name, without the extension. Eg. IMG_2534
+     * @param Gallery gallery The gallery
+     * @param Photo photo The photo
      *
      * @return string
      */
-    getThumbnailUrl: function (albumId, photoName) {
-        return bucketUrl + '/' + albumId + '/' + photoName + '_thumb.jpg';
+    getThumbnailUrl: function (gallery, photo) {
+        return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getThumbnailPath();
     },
     /**
      * Get the display image url
      *
-     * @param string albumId The album id
-     * @param string photoName The photo name, without the extension. Eg. IMG_2534
+     * @param Gallery gallery The gallery
+     * @param Photo photo The photo
 
      * @return string
      */
-    getDisplayUrl: function(albumId, photoName) {
-        return bucketUrl + '/' + albumId + '/' + photoName + '_display.jpg';
+    getDisplayUrl: function (gallery, photo) {
+        return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getDisplayPath();
     },
     /**
      * Get the original image url
      *
-     * @param string albumId The album id
-     * @param string photoName The photo name, without the extension. Eg. IMG_2534
-     * @param string photoExt The photo extension, with the period. Eg. .JPG
+     * @param Gallery gallery The gallery
+     * @param Photo photo The photo
 
      * @return string
      */
-    getOriginalUrl: function (albumId, photoName, photoExt) {
-        return bucketUrl + '/' + albumId + '/' + photoName + photoExt;
+    getOriginalUrl: function (gallery, photo) {
+        return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getOriginalPath();
     },
     /**
      * Get an array of the relative paths to the original image and all thumbnails
      *
-     * @param string albumId The album id
-     * @param string photoName The photo name, without the extension. Eg. IMG_2534
-     * @param string photoExt The photo extension, with the period. Eg. .JPG
+     * @param Gallery gallery The gallery
+     * @param Photo photo The photo
      *
      * @return array
      */
-    getPhotoPaths: function (albumId, photoName, photoExt) {
+    getPhotoPaths: function (gallery, photo) {
         return [
-            '/' + albumId + '/' + photoName + '_thumb.jpg',
-            '/' + albumId + '/' + photoName + '_display.jpg',
-            '/' + albumId + '/' + photoName + photoExt
+            '/' + gallery.getGalleryPath() + '/' + photo.getThumbnailPath(),
+            '/' + gallery.getGalleryPath() + '/' + photo.getDisplayPath(),
+            '/' + gallery.getGalleryPath() + '/' + photo.getOriginalPath()
         ];
     },
     /**
@@ -62,16 +60,16 @@ module.exports = {
     /**
      * Generate the thumbnail images
      *
-     * @param string albumId The album id
+     * @param string galleryId The galllery id
      * @param string photoFileName The photo file name. Eg. IMG_2534.JPG
      * @param function callback The callback function
      */
-    generateThumbnail: function (albumId, photoFileName, callback) {
+    generateThumbnail: function (galleryId, photoFileName, callback) {
         var sqs = require("../libs/sqs");
 
         // Construct the SQS message
         var sqsMessageBody = JSON.stringify({
-            original: albumId + '/' + photoFileName,
+            original: galleryId + '/' + photoFileName,
             descriptions: [
                 {
                     height: 200,

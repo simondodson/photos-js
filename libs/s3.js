@@ -38,16 +38,15 @@ module.exports = {
     /**
      * Delete a photo and all its thumbnails
      *
-     * @param string folder The folder
-     * @param string file The file name
-     * @param string file The file extension name
+     * @param string gallery The gallery id
+     * @param string photo The photo id
      * @param function callback The callback function
      */
-    deletePhoto: function(folder, fileName, fileExt, callback) {
+    deletePhoto: function(gallery, photo, callback) {
         var photoHelper = require('../helpers/photo');
 
-        var photos = photoHelper.getPhotoPaths(folder, fileName, fileExt);
-        console.log("deleting", photos);
+        // Delete the photos
+        var photos = photoHelper.getPhotoPaths(gallery, photo);
         client.deleteMultiple(photos, function(err, res){
             callback(err);
         });

@@ -60,15 +60,24 @@ exports.callback = function(req, res){
         gallery.save(function (err, gallery) {
             // Generate the thumbnail
             var photoHelper = require('../helpers/photo');
-            photoHelper.generateThumbnail(req.query.gallery, req.query.file, function (err) {
+            photoHelper.generateThumbnail(gallery._id, photo.name + photo.ext, function (err) {
                 if (err) {
                     return res.send(error, 500);
                 }
 
+                // Get the the photo object
+                var photo = _.filter(gallery.photos, function (photo) {
+                    if (photo.name + photo.ext == req.query.file) {
+                        return true;
+                    }
+
+                    return false;
+                })[0];
+
                 // Send back the image url and thumbnail url to the uploader page
                 return res.send({
-                    url: photoHelper.getOriginalUrl(gallery.id, photo.name, photo.ext),
-                    thumbUrl: photoHelper.getThumbnailUrl(gallery.id, photo.name)
+                    url: photoHelper.getOriginalUrl(gallery, photo),
+                    thumbUrl: photoHelper.getThumbnailUrl(gallery, photo)
                 }, 200);
             });
         });

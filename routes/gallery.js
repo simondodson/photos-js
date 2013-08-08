@@ -77,7 +77,7 @@ exports.delete_photo = function (req, res) {
         })[0];
 
         // Remove the photo files from S3
-        s3.deletePhoto(req.params.gallery, photo.name, photo.ext, function (err) {
+        s3.deletePhoto(gallery, photo, function (err) {
             if (err) throw err;
 
             // Remove the photo from the array

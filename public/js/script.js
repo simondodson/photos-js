@@ -19,15 +19,31 @@ $(document).ready(function () {
         }
     });
 
+    // Hover over album titles
+    $('.album-title').hover(function () {
+        $(this).find('a.anchor').toggleClass('hide');
+    });
+
     // The "More" button
     $('.btn-more').click(function (e) {
         // Hide the button
         $(this).hide();
+        $(this).parent().find('.btn-less').show();
 
         // Show all the hidden thumbnails
-        $(this).parent().find('.hide-toggle').toggleClass('hide');
+        $(this).parents('.row').find('.hide-toggle').toggleClass('hide');
 
         // Start that lazy loadin'
-        $(this).parent().find('.img-thumbnail img').unveil(200);
+        $(this).parents('.row').find('.img-thumbnail img').unveil(200);
+    });
+
+    // The "Less" button
+    $('.btn-less').click(function (e) {
+        // Hide the button
+        $(this).hide();
+        $(this).parent().find('.btn-more').show();
+
+        // Show all the hidden thumbnails
+        $(this).parents('.row').find('.hide-toggle').toggleClass('hide');
     });
 });

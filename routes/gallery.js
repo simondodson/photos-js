@@ -66,9 +66,8 @@ exports.delete_photo = function (req, res) {
             });
         }
 
-        var _ = require('underscore');
-
         // Get the details of the photo we're going to delete
+        var _ = require('underscore');
         var photo = _.filter(gallery.photos, function (photo) {
             if (photo._id == req.params.photo) {
                 return true;

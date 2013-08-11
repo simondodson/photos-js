@@ -4,8 +4,8 @@ block content
     for album in albums
         div.row
             h2(class="album-title")
-                a(class="anchor hide", name="#{album.date}-#{album.name}", href="##{album.date}-#{album.name}")
-                    i(class="icon-link")
+                a(class="anchor", name="#{album.date}-#{album.name}", href="##{album.date}-#{album.name}")
+                    i(class="icon-link hide")
                 if isAuthenticated
                     div(class="btn-group pull-right btn-group-album-options")
                         i(class="icon-gear dropdown-toggle", data-toggle="dropdown")
@@ -46,5 +46,5 @@ block content
                     div(style="text-align: center")
                         div(class="btn btn-default btn-more btn-small") More &nbsp;
                             i.icon-chevron-down
-                        div(class="btn btn-default btn-less btn-small", style="display: none") Less &nbsp;
+                        a(href="##{album.date}-#{album.name}", class="btn btn-default btn-less btn-small", style="display: none") Less &nbsp;
                             i.icon-chevron-up

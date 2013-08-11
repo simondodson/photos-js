@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     // Hover over album titles
     $('.album-title').hover(function () {
-        $(this).find('a.anchor').toggleClass('hide');
+        $(this).find('a.anchor i').toggleClass('hide');
     });
 
     // The "More" button

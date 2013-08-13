@@ -12,7 +12,8 @@ var index = require('./routes'),
     login = require('./routes/login'),
     logout = require('./routes/logout'),
     gallery = require('./routes/gallery'),
-    upload = require('./routes/upload');
+    upload = require('./routes/upload'),
+    user = require('./routes/user');
 
 var app = express();
 
@@ -117,6 +118,9 @@ app.get('/delete/:gallery/:photo', ensureAuthenticated, gallery.delete_photo);
 
 app.get('/upload/callback/', ensureAuthenticated, upload.callback);
 app.get('/upload/:folder', ensureAuthenticated, upload.index);
+
+app.get('/user', ensureAuthenticated, user.index);
+app.post('/user', ensureAuthenticated, user.post);
 
 app.get('/', index.index);
 

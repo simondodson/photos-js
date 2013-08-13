@@ -19,9 +19,15 @@ exports.index = function(req, res, next) {
         uploader.index(req, res, next);
     });
 
+    // Setup the socket to process uploads
     processUploads(req.user);
 };
 
+/**
+ * Setup a socket to process uploads
+ *
+ * @param User user The user
+ */
 function processUploads(user) {
     var io = require('../libs/socket.io');
 

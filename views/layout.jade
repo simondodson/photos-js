@@ -11,7 +11,8 @@ html
     div(class="container")
         if (flash.length > 0)
             for alert in flash
-                div(class="alert alert-#{alert.type} unstyled", style="text-align: center; margin-top: 10px")= alert.message
+                for message in alert.message
+                    div(class="alert alert-#{alert.type} unstyled", style="text-align: center; margin-top: 10px")= message
 
         div(class="header")
             ul(class="nav nav-pills pull-right")
@@ -19,7 +20,7 @@ html
                     a(href="/") Home
                 if isAuthenticated
                     li
-                        a(href="/create") Create an Album
+                        a(href="/user") Account Settings
                     li
                         a(href="/logout") Logout
                 else

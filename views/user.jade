@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    h2 Update your Account Settings
+    form(class="form-horizontal", method="post", action="/user", style="width: 500px; margin: auto; margin-top: 25px; ")
+        div.form-group
+            label.col-lg-2(for="username") Username
+            div.col-lg-10
+                input(type="text", id="username", name="username", class="form-control", placeholder="Username", value="#{user.username}", autofocus)
+        div.form-group
+            label.col-lg-2(for="password") Password
+            div.col-lg-10
+                input(type="password", id="password", name="password", class="form-control", placeholder="Password", value="", autofocus)
+        div.form-group
+            button(type="submit", class="btn btn-primary") Save

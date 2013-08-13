@@ -116,7 +116,6 @@ app.post('/create', ensureAuthenticated, gallery.post);
 app.get('/delete/:gallery', ensureAuthenticated, gallery.delete);
 app.get('/delete/:gallery/:photo', ensureAuthenticated, gallery.delete_photo);
 
-app.get('/upload/callback/', ensureAuthenticated, upload.callback);
 app.get('/upload/:folder', ensureAuthenticated, upload.index);
 
 app.get('/user', ensureAuthenticated, user.index);
@@ -124,7 +123,7 @@ app.post('/user', ensureAuthenticated, user.post);
 
 app.get('/', index.index);
 
-http.createServer(app).listen(app.get('port'), function(){
+module.exports.server = http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
 

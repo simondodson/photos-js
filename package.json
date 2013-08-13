@@ -19,6 +19,7 @@
     "passport-local": "*",
     "path": "*",
     "s3-lister": "*",
+    "socket.io": "*",
     "underscore": "*"
   },
   "repository": {

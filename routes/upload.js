@@ -107,7 +107,7 @@ function processUploads(user) {
                     });
                 });
             } else {
-                // Wait for any photos
+                // Wait for new photos to be added to the queue
                 setTimeout(processQueue, 250);
             }
         };

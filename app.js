@@ -112,8 +112,8 @@ if ('development' == app.get('env')) {
 
 // Set the global variables
 app.locals = {
-    siteTitle: 'Photos.js',
-    company: 'Photos.js'
+    siteTitle: process.env.SITE_TITLE,
+    company: process.env.SITE_TITLE
 };
 
 /**

@@ -11,6 +11,7 @@
     "bcrypt": "*",
     "bower": "*",
     "connect-flash": "*",
+    "connect-mongo": "*",
     "express": "3.2.x",
     "jade": "*",
     "mongoose": "*",

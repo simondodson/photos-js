@@ -8,6 +8,8 @@ var express = require('express'),
     passport = require('./libs/passport'),
     path = require('path');
 
+var MongoStore = require('connect-mongo')(express);
+
 var index = require('./routes'),
     login = require('./routes/login'),
     logout = require('./routes/logout'),
@@ -27,7 +29,13 @@ app.use(express.logger('dev'));
 app.use(express.cookieParser());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.session({secret: process.env.SESSION_SECRET}));
+app.use(express.session({
+    secret: process.env.SESSION_SECRET,
+    store: new MongoStore({
+        url: process.env.MONGOHQ_URL,
+        collection : 'sessions'
+    })
+}))
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

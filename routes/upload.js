@@ -80,7 +80,7 @@ function processUploads(user) {
                     gallery.photos = _.sortBy(gallery.photos, function (photo) {
                         return photo.name + photo.ext;
                     });
-                    console.log(gallery);
+
                     gallery.save(function (err, gallery) {
                         if (err) throw err;
 

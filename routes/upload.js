@@ -66,9 +66,10 @@ function processUploads(user) {
                     var photo = {
                         name: path.basename(data.file, path.extname(data.file)),
                         ext: path.extname(data.file),
-                        owner: user._id
+                        owner: user._id,
+                        aspect_ratio: data.aspect_ratio
                     };
-                    gallery.photos.push(photo);
+                    gallery.photos.unshift(photo);
 
                     // Remove duplicates if they exist
                     gallery.photos = _.uniq(gallery.photos, false, function (photo) {
@@ -79,8 +80,10 @@ function processUploads(user) {
                     gallery.photos = _.sortBy(gallery.photos, function (photo) {
                         return photo.name + photo.ext;
                     });
-
+                    console.log(gallery);
                     gallery.save(function (err, gallery) {
+                        if (err) throw err;
+
                         // Generate the thumbnail
                         var photoHelper = require('../helpers/photo');
                         photoHelper.generateThumbnail(gallery._id, photo.name + photo.ext, function (err) {

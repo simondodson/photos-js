@@ -5,16 +5,19 @@ var files = [];
 angular.module('uploaderApp.services', []).
     factory('notify', ['$window', function($window) {
         return function($scope, file) {
-            // Store the Angular.js data for this file
-            files[file.name] = {
-                scope: $scope,
-                file: file
-            };
+            getImageAttributes(file, function (file) {
+                // Store the Angular.js data for this file
+                files[file.name] = {
+                    scope: $scope,
+                    file: file
+                };
 
-            // Tell the backend this file has been uploaded
-            socket.emit('uploaded', {
-                gallery: file.folder,
-                file: file.name
+                // Tell the backend this file has been uploaded
+                socket.emit('uploaded', {
+                    gallery: file.folder,
+                    file: file.name,
+                    aspect_ratio: file.aspect_ratio
+                });
             });
         };
     }
@@ -24,6 +27,28 @@ angular.module('uploaderApp.services', []).
 socket.on('thumbnail', function (data) {
     pollThumbnailUrl(data.name, data.url);
 });
+
+function getImageAttributes(file, callback) {
+    // Get the width, height and aspect ratio of the image
+    var image = new Image();
+    image.onload = function() {
+        file.width = this.width;
+        file.height = this.height;
+        file.aspect_ratio = (this.width / this.height);
+
+        callback(file);
+    };
+    image.onerror = function() {
+        file.width = null;
+        file.height = null;
+        file.aspect_ratio = null;
+
+        callback(file);
+    };
+
+    var url = window.URL || window.webkitURL;
+    image.src = url.createObjectURL(file);
+}
 
 /**
  * Start polling the thumbnail url to see if it has been created yet.

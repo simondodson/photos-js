@@ -5,7 +5,8 @@
 var PhotoSchema = new mongoose.Schema({
     name: { type: String, required: true },
     ext: { type: String, required: true },
-    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+    owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    aspect_ratio: { type: Number, required: true }
 });
 
 /**

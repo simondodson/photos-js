@@ -1,10 +1,26 @@
+var Gallery = require('../models/gallery'),
+    s3 = require('../libs/s3'),
+    _ = require('underscore');
+
+exports.list = function (req, res) {
+    // Get a list of all albums
+    Gallery.find().populate('photos.owner', 'username').exec(function (err, albums) {
+        // Sort the albums by date
+        albums = _.sortBy(albums, function (album) {
+            var date = new Date(album.date);
+            return -1 * date.getTime();
+        });
+
+        res.set('Content-Type', 'application/json');
+        res.send(200, albums);
+    });
+};
+
 exports.index = function(req, res){
     res.render('create');
 };
 
 exports.post = function(req, res){
-    var Gallery = require('../models/gallery');
-
     var gallery = new Gallery(req.body);
 
     gallery.save(function (err, gallery) {
@@ -14,9 +30,6 @@ exports.post = function(req, res){
 };
 
 exports.delete = function(req, res) {
-    var Gallery = require("../models/gallery"),
-        s3 = require('../libs/s3');
-
     Gallery.findOne({_id: req.params.gallery}, function (err, gallery) {
         if (err) throw err;
 
@@ -44,9 +57,6 @@ exports.delete = function(req, res) {
 };
 
 exports.delete_photo = function (req, res) {
-    var Gallery = require("../models/gallery"),
-        s3 = require('../libs/s3');
-
     if (req.params.gallery === undefined) {
         throw "Cannot find album parameter";
     }
@@ -67,7 +77,6 @@ exports.delete_photo = function (req, res) {
         }
 
         // Get the details of the photo we're going to delete
-        var _ = require('underscore');
         var photo = _.filter(gallery.photos, function (photo) {
             if (photo._id == req.params.photo) {
                 return true;

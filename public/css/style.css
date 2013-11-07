@@ -43,16 +43,9 @@ a.anchor {
     }
 
 /** Thumbnail Images **/
-.img-thumbnail-container {
-    display: inline-block;
-    margin: 2px;
-    min-width: 210px;
-    text-align: center;
+.photo-image {
+    border-right: 2px solid white;
 }
-
-    .img-thumbnail {
-        cursor: pointer;
-    }
 
 .btn-group-photo-options {
     cursor: pointer;

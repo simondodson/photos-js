@@ -1,6 +1,16 @@
 var bucketUrl = 'https://' + process.env.S3_BUCKET_NAME + '.s3.amazonaws.com';
 
 module.exports = {
+
+    /**
+     * Get the thumbnail image path
+     *
+     * @return string
+     */
+    getThumbnailPath:  function(photo) {
+        return photo.name + '_thumb.jpg';
+    },
+
     /**
      * Get the thumbnail image url
      *
@@ -12,28 +22,7 @@ module.exports = {
     getThumbnailUrl: function (gallery, photo) {
         return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getThumbnailPath();
     },
-    /**
-     * Get the display image url
-     *
-     * @param Gallery gallery The gallery
-     * @param Photo photo The photo
 
-     * @return string
-     */
-    getDisplayUrl: function (gallery, photo) {
-        return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getDisplayPath();
-    },
-    /**
-     * Get the original image url
-     *
-     * @param Gallery gallery The gallery
-     * @param Photo photo The photo
-
-     * @return string
-     */
-    getOriginalUrl: function (gallery, photo) {
-        return bucketUrl + '/' + gallery.getGalleryPath() + '/' + photo.getOriginalPath();
-    },
     /**
      * Get an array of the relative paths to the original image and all thumbnails
      *
@@ -49,6 +38,7 @@ module.exports = {
             '/' + gallery.getGalleryPath() + '/' + photo.getOriginalPath()
         ];
     },
+
     /**
      * Get the placeholder image url
      *
@@ -57,6 +47,7 @@ module.exports = {
     getPlaceholderUrl: function () {
         return process.env.PLACEHOLDER_IMAGE_URL;
     },
+
     /**
      * Generate the thumbnail images
      *

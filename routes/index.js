@@ -1,5 +1,6 @@
 exports.index = function(req, res){
-    var Gallery = require("../models/gallery");
+    var Gallery = require("../models/gallery"),
+        photoHelper = require('../helpers/photo');
 
     // Get a list of all albums
     Gallery.find().populate('photos.owner', 'username').exec(function (err, albums) {
@@ -11,8 +12,7 @@ exports.index = function(req, res){
         });
 
         res.render('index', {
-            albums: albums,
-            photoHelper: require('../helpers/photo')
+            albums: albums
         });
     });
 };

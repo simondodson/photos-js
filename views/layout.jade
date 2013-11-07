@@ -38,6 +38,15 @@ html
                 | &copy;&nbsp;
                 span= company
 
+    script.
+        Config = {
+            S3: {
+                Bucket: '#{s3Bucket}'
+            },
+            Photo: {
+                Placeholder: '#{placeholderUrl}'
+            }
+        };
     script(src="/components/jquery/jquery.min.js")
     script(src="/components/bootstrap/dist/js/bootstrap.min.js")
     script(src="/components/unveil/jquery.unveil.js")
@@ -45,7 +54,6 @@ html
     script(src="/components/underscore/underscore-min.js")
     script(src="/components/backbone/backbone-min.js")
     block script
-    script(src="/js/linear-partition.js")
-    script(src="/js/partition.js")
     script(src="/js/script.js")
+    block template
 

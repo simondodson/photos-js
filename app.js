@@ -121,7 +121,9 @@ if ('development' == app.get('env')) {
 // Set the global variables
 app.locals = {
     siteTitle: process.env.SITE_TITLE,
-    company: process.env.SITE_TITLE
+    company: process.env.SITE_TITLE,
+    s3Bucket: process.env.S3_BUCKET_NAME,
+    placeholderUrl: process.env.PLACEHOLDER_IMAGE_URL
 };
 
 /**
@@ -155,6 +157,7 @@ app.get('/delete/:gallery', ensureAuthenticated, gallery.delete);
 app.get('/delete/:gallery/:photo', ensureAuthenticated, gallery.delete_photo);
 
 app.get('/upload/:folder', ensureAuthenticated, upload.index);
+app.get('/list', gallery.list);
 
 app.get('/user', ensureAuthenticated, user.index);
 app.post('/user', ensureAuthenticated, user.post);

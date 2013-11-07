@@ -16,35 +16,19 @@ block content
                                 a(href="/delete/#{album.id}", data-album-name="#{album.name}", class="button-delete-album") Delete this Album
                 | #{album.name}
                 small.muted(style="padding-left: 10px") #{album.date}
-            if album.photos
-                - var thumbnailContainerClass = ''
-                each photo, index in album.photos
-                    if index == 5
-                        - thumbnailContainerClass = 'hide hide-toggle'
 
-                    div(class="img-thumbnail-container #{thumbnailContainerClass}")
-                        if isAuthenticated
-                            div(class="btn-group btn-group-photo-options")
-                                button(class="btn btn-info btn-small dropdown-toggle", data-toggle="dropdown")
-                                    i(class="icon-pencil")
-                                ul(class="dropdown-menu")
-                                    li
-                                        a(href="/delete/#{album.id}/#{photo.id}")
-                                            | Delete this Photo
-                        span.img-thumbnail
-                            img(
-                                src="#{photoHelper.getPlaceholderUrl()}",
-                                data-src="#{photoHelper.getThumbnailUrl(album, photo)}",
-                                data-img="#{photoHelper.getDisplayUrl(album, photo)}",
-                                data-img-original="#{photoHelper.getOriginalUrl(album, photo)}",
-                                data-attribution="Photo by #{photo.owner.username}"
-                            )
+            div.photos
 
-                hr
+block script
+    script(src="/js/linear-partition.js")
+    script(src="/js/partition.js")
+    script(src="/js/helpers/photo.js")
 
-                if album.photos.length > 5
-                    div(style="text-align: center")
-                        div(class="btn btn-default btn-more btn-small") More &nbsp;
-                            i.icon-chevron-down
-                        a(href="##{album.date}-#{album.name}", class="btn btn-default btn-less btn-small", style="display: none") Less &nbsp;
-                            i.icon-chevron-up
+block template
+    script#photo.template(type="text/html").
+        <img class="photo-image" style="width: <%= size[0] %>px; height: <%= size[1] %>px"
+             src="<%= placeholderUrl %>"
+             data-src="<%= thumbUrl %>" data-img="<%= displayUrl %>"
+             data-img-original="<%= originalUrl %>"
+             data-attribution="Photo by <%= owner.username %>"
+        >
